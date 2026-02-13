@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新春魔法拉霸，好運幾霸100分</title>
+    <style>
+        :root {
+            --red: #d32f2f;
+            --gold: #ffd700;
+            --dark-gold: #b8860b;
+        }
+
+        body {
+            background-color: #8b0000;
+            background-image: radial-gradient(#d32f2f 1px, transparent 1px);
+            background-size: 20px 20px;
+            font-family: "Microsoft JhengHei", sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--gold);
+            overflow-x: hidden;
+        }
+
+        /* 裝飾元素：春聯 */
+        .couplet {
+            position: fixed;
+            top: 20px;
+            background: #ff0000;
+            border: 2px solid var(--gold);
+            padding: 15px 5px;
+            writing-mode: vertical-rl;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        .left-c { left: 10px; }
+        .right-c { right: 10px; }
+
+        /* 裝飾元素：鞭炮 */
+        .firecracker { font-size: 2rem; position: absolute; }
+
+        header {
+            text-align: center;
+            padding: 30px 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        h1 { font-size: 2.2rem; margin: 0; color: var(--gold); }
+        .sub-title { font-size: 1.2rem; color: #fff; margin-top: 10px; }
+
+        /* 拉霸主體 */
+        .slot-container {
+            background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%);
+            padding: 15px;
+            border-radius: 15px;
+            border: 5px solid #fff;
+            box-shadow: 0 0 20px var(--gold);
+            position: relative;
+            width: 300px;
+        }
+
+        .slot-machine {
+            background: #8b0000;
+            padding: 20px;
+            border-radius: 10px;
+            border: 4px solid var(--gold);
+        }
+
+        .display-window {
+            background: #fff;
+            height: 80px;
+            overflow: hidden;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 4px inset var(--dark-gold);
+            position: relative;
+        }
+
+        .strip {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            transition: top 2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        }
+
+        .amount-item {
+            height: 80px;
+            line-height: 80px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        /* Start 按鈕 */
+        .start-btn {
+            background: radial-gradient(circle, #fff 0%, var(--gold) 100%);
+            color: #8b0000;
+            border: 3px solid #b8860b;
+            padding: 15px 50px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 var(--dark-gold);
+            transition: 0.1s;
+            width: 100%;
+        }
+
+        .start-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 var(--dark-gold);
+        }
+
+        /* 紅包部分 */
+        .red-envelope {
+            width: 240px;
+            height: 320px;
+            background-color: var(--red);
+            margin: 30px auto;
+            border-radius: 15px;
+            position: relative;
+            perspective: 1000px;
+            border: 2px solid var(--gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 40%;
+            background-color: #b71c1c;
+            border-bottom: 3px solid var(--gold);
+            z-index: 2;
+            transform-origin: top;
+            transition: transform 0.8s;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .envelope-flap::after {
+            content: "福";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: #8b0000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid #8b0000;
+        }
+
+        .red-envelope.open .envelope-flap { transform: rotateX(160deg); }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.5s 0.6s;
+        }
+
+        .red-envelope.open .content { opacity: 1; }
+
+        .fb-btn {
+            display: inline-block;
+            background: #1877f2;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* 元寶動畫 */
+        .yuanbao { position: fixed; bottom: 20px; font-size: 2.5rem; animation: float 3s infinite ease-in-out; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 600px) {
+            .couplet { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="couplet left-c">新春大吉發大財</div>
+    <div class="couplet right-c">好運連連步步高</div>
+    <div class="yuanbao" style="left: 10%;">💰</div>
+    <div class="yuanbao" style="right: 10%; animation-delay: 1.5s;">💰</div>
+
+    <header>
+        <p>🏮 🧧 🏮</p>
+        <h1>新春魔法拉霸</h1>
+        <h2 style="color:white">好運幾霸100分</h2>
+        <p class="sub-title">勞發署補助大紅包等你拿！</p>
+    </header>
+
+    <div class="slot-container">
+        <div class="slot-machine">
+            <div class="display-window">
+                <div id="strip" class="strip"></div>
+            </div>
+            <button class="start-btn" id="spinBtn" onclick="spin()">Start</button>
+        </div>
+    </div>
+
+    <div id="envelope" class="red-envelope">
+        <div class="envelope-flap"></div>
+        <div class="content">
+            <h2 id="prizeName" style="color:var(--gold); margin:0;">中大獎啦！</h2>
+            <p id="prizeDetail" style="font-size: 0.95rem; line-height: 1.6;"></p>
+            <a href="https://www.facebook.com/share/17F3NGsGjZ/?mibextid=wwXIfr" target="_blank" class="fb-btn">
+                👍 追蹤「朴職人」FB
+            </a>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 50px;">🧨 🧨 🧨 🧨 🧨</div>
+
+    <script>
+        const prizes = [
+            { name: "青年職得好評", amount: "30,000 元", detail: "恭喜！青年職涯規劃+3萬元獎勵金手到擒來！" },
+            { name: "55就業獎勵", amount: "60,000 元", detail: "壯世代最強後盾！6萬元獎勵金助您重返職場！" },
+            { name: "婦女再就業獎勵", amount: "30,000 元", detail: "給勇敢的妳！3萬元自主尋職津貼為您加油！" },
+            { name: "缺工就業獎勵", amount: "108,000 元", detail: "幾霸分！最高10萬8000元獎勵，填補產業缺口就選你！" },
+            { name: "跨域津貼", amount: "最高 30,000+", detail: "異地就業免煩惱！交通、租屋、搬遷補助全方位支援！" },
+            { name: "面試整備金", amount: "2,500 元", detail: "面試第一印象我幫你！2500元整備金助您旗開得勝！" }
+        ];
+
+        const strip = document.getElementById('strip');
+        const envelope = document.getElementById('envelope');
+        const prizeName = document.getElementById('prizeName');
+        const prizeDetail = document.getElementById('prizeDetail');
+        const spinBtn = document.getElementById('spinBtn');
+
+        function init() {
+            let html = '';
+            for(let i=0; i<12; i++) {
+                prizes.forEach(p => {
+                    html += `<div class="amount-item">${p.amount}</div>`;
+                });
+            }
+            strip.innerHTML = html;
+        }
+
+        function spin() {
+            envelope.classList.remove('open');
+            spinBtn.disabled = true;
+            spinBtn.innerText = "RUN...";
+            
+            const randomIndex = Math.floor(Math.random() * prizes.length);
+            const itemHeight = 80;
+            const targetPos = (prizes.length * 10 + randomIndex) * itemHeight;
+
+            strip.style.transition = 'none';
+            strip.style.top = '0px';
+
+            setTimeout(() => {
+                strip.style.transition = 'top 2.5s cubic-bezier(0.1, 0, 0.1, 1)';
+                strip.style.top = `-${targetPos}px`;
+            }, 50);
+
+            setTimeout(() => {
+                envelope.classList.add('open');
+                prizeName.innerText = prizes[randomIndex].name;
+                prizeDetail.innerText = prizes[randomIndex].detail;
+                spinBtn.disabled = false;
+                spinBtn.innerText = "Start";
+            }, 2800);
+        }
+
+        init();
+    </script>
+</body>
+</html>
